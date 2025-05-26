@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ARC Facts</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    body {
+      background-color: #000;
+      color: #00ff00;
+      font-family: 'Press Start 2P', monospace;
+      text-align: center;
+      padding: 40px 10px;
+    }
+
+    h1 {
+      font-size: 20px;
+      color: #00ccff;
+      margin-bottom: 10px;
+    }
+
+    .subtle {
+      font-size: 10px;
+      color: #ccc;
+      margin-bottom: 30px;
+    }
+
+    #fact-box {
+      background: #111;
+      border: 2px solid #00ccff;
+      padding: 20px;
+      width: 90%;
+      max-width: 640px;
+      margin: 0 auto 20px;
+      font-size: 12px;
+      min-height: 100px;
+      color: #ffffff;
+    }
+
+    button {
+      background: #222;
+      color: #00ff00;
+      border: 2px solid #00ff00;
+      padding: 8px 16px;
+      font-size: 10px;
+      margin: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #00ff00;
+      color: #000;
+    }
+
+    textarea {
+      width: 90%;
+      max-width: 640px;
+      height: 80px;
+      background: #111;
+      color: #00ff00;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      border: 1px solid #00ccff;
+      padding: 8px;
+      margin-top: 10px;
+    }
+
+    .send-btn {
+      background-color: #00ccff;
+      color: #000;
+      font-weight: bold;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>ARC Fact Generator</h1>
+  <div class="subtle">Retro insights from the world of Attack Retrieve Capture</div>
+
+  <div id="fact-box">Press GO to reveal a fact.</div>
+
+  <div>
+    <button onclick="showFact()">GO</button>
+    <button onclick="copyFact()">COPY</button>
+  </div>
+
+  <div class="section">
+    <div>Flag This Fact:</div>
+    <textarea id="flagText" placeholder="Why is this fact incorrect or needs revision? (optional)"></textarea><br>
+    <button class="send-btn" onclick="sendFlag()">SEND</button>
+  </div>
+
+  <div class="section">
+    <div>Submit a New ARC Fact:</div>
+    <textarea id="submitText" placeholder="Enter your ARC fact here..."></textarea><br>
+    <button class="send-btn" onclick="sendFact()">SEND</button>
+  </div>
+
+  <script>
+    const facts = ["Attack Retrieve Capture (ARC) was originally released by Sierra in 1998 under the name 'S.W.I.N.E.' before being renamed.","ARC’s core mode is Capture the Flag — with high-speed movement, ship physics, and objective control.","ARC maps are tile-based. Many iconic maps like Subway, Push, and Brickyard were made by the community.","After Sierra shut down ARC’s servers, ArmorCritical.com was launched to keep the game alive.","In ARC, neutral flags must be manually carried to your base to be returned. Colored team flags will auto-return to their holder after a short delay.","The CTA league (Capture the ARC) is the main competitive format for ARC today.","Clan 'K' (Kings) dominated during early CTA seasons, with players like Jambi, ElAsesino, and Otis.","Clan 'BA' (Blood Angels) was one of the earliest organized ARC clans, active in the early 2000s.","You can’t teleport while holding a flag in ARC. Transporters work only when unencumbered.","SpringGuy is the current maintainer of ArmorCritical and helps keep the infrastructure running.","In 2023–2025 CTA seasons, standout players include Tuvix, Macabre, Jank, Defect, and Vulture.","Kill/Death Ratio (KDR) matters in stats, but Carry Factor (CF) is a more complete performance metric.","Classic ARC powerups included mines, shields, repair, and energy boosts — but they are not currently active in ArmorCritical.","Subway is one of the most-played CTA maps and features tight tunnels and central combat.","The CTA Insight tool analyzes match stats, movement heatmaps, and top performers from replays.","Teams in CTA are often redrafted each season — but core groups like Death Jockeys, Toxic, and Bonanza persist.","CTA match replays are saved as .rec files — players can rewatch games and analyze strategy.","Player attributes in ARC are fixed per map settings. There is no way to change them mid-match except through specific map-defined flag behavior.","The original ARC lobby on Sierra had chatrooms, clans, and a top 100 ladder leaderboard.","Old-school clans like KoH (Knights of Honor), LoC (Lords of Chaos), and GoD (Guardians of Death) played during the SierraNet era.","Maps like Push and Subway were commonly used in both pub and competitive matches for their balance and flow.","Teleporters are found on some maps, but they can’t be used if you’re holding a flag or are affected by certain map conditions.","Early ARC included deathmatch, base defense, and oddball-style experimental modes on custom servers.","The ARC map editor allowed advanced users to create competitive layouts with powerup placements and spawn control.","Some CTA players specialize in roles like 'mid anchor', 'flag runner', or 'base defense', even if unofficial.","ElAsesino, known for precision movement, was one of the most feared flag chasers in ARC history.","The Brickyard map became iconic for small team skirmishes and aggressive power control.","Defect is known for high awareness and disciplined rotations in CTA matches.","Clan rivalries peaked during late SierraNet with live-spectated scrims by neutral hosts.","ArmorCritical’s version of ARC is written in C++ and reverse-engineered from the original Sierra binaries.","Capture the ARC seasons have included unique formats like snake drafts and role-locks to promote balance.","CTA stats include kills, deaths, flag returns, CF scores, and detailed breakdowns via replay analysis.","The scoreboard in ARC is live-updating and reflects CF ratings at the end of each CTA match.","Jambi, a key member of clan K, was known for reading flag routes before they happened.","There are over 1,000 custom maps created for ARC, many of which are preserved through community-hosted archives."];
+
+    let currentFact = "";
+
+    function showFact() {
+      const factBox = document.getElementById("fact-box");
+      const randomIndex = Math.floor(Math.random() * facts.length);
+      currentFact = facts[randomIndex];
+      factBox.textContent = currentFact;
+    }
+
+    function copyFact() {
+      if (!currentFact) return alert("No fact to copy.");
+      navigator.clipboard.writeText(currentFact)
+        .then(() => alert("Fact copied to clipboard!"))
+        .catch(err => alert("Failed to copy."));
+    }
+
+    function sendFlag() {
+      const reason = document.getElementById("flagText").value;
+      console.log("Flag sent:", { fact: currentFact, reason });
+      alert("Thanks! This flag has been logged for review.");
+      document.getElementById("flagText").value = "";
+    }
+
+    function sendFact() {
+      const newFact = document.getElementById("submitText").value;
+      if (!newFact.trim()) {
+        alert("Please enter a fact to submit.");
+        return;
+      }
+      console.log("New fact submitted:", newFact);
+      alert("Thank you! Your fact has been submitted for review.");
+      document.getElementById("submitText").value = "";
+    }
+  </script>
+</body>
+</html>
